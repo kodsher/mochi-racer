@@ -411,8 +411,8 @@
                 if (game_over === false) {
                     e.preventDefault();
                     var touch = e.type === 'touchstart' ? e.touches[0] : e;
-                    startX = touch.pageX;
-                    startY = touch.pageY;
+                    startX = touch.clientX;
+                    startY = touch.clientY;
                     initialMochiLeft = parseInt(mochi.css('left'));
                     initialMochiTop = parseInt(mochi.css('top'));
                     $(document).on('mousemove touchmove', onDrag);
@@ -424,8 +424,8 @@
                 if (game_over === false) {
                     e.preventDefault();
                     var touch = e.type === 'touchmove' ? e.touches[0] : e;
-                    var deltaX = touch.pageX - startX;
-                    var deltaY = touch.pageY - startY;
+                    var deltaX = touch.clientX - startX;
+                    var deltaY = touch.clientY - startY;
 
                     var newLeft = initialMochiLeft + deltaX;
                     var newTop = initialMochiTop + deltaY;
