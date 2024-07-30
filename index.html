@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Single Player</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style type="text/css">
         /*Styling the game*/
         body {
@@ -17,8 +18,9 @@
         #container {
             position: relative;
             height: 100vh;
-            width: 25%;
-            left: 35%;
+            width: 90%;
+            max-width: 500px;
+            margin: auto;
             background-color: #292929;
             overflow: hidden;
         }
@@ -286,8 +288,8 @@
         /* Styling for the mochi image */
         #mochi {
             position: absolute;
-            height: 60px;
-            width: 60px;
+            height: 80px;
+            width: 80px;
             bottom: 8%;
             left: 60%;
         }
@@ -427,6 +429,24 @@
                     }
                 }
             });
+
+            // Adding touch controls
+            container.on('touchstart touchmove', function (e) {
+                if (game_over === false) {
+                    var touch = e.touches[0];
+                    var touchX = touch.pageX - container.offset().left;
+                    var touchY = touch.pageY - container.offset().top;
+
+                    if (touchX > 0 && touchX < container_width) {
+                        mochi.css('left', touchX - mochi_width / 2);
+                    }
+
+                    if (touchY > 0 && touchY < container_height) {
+                        mochi.css('top', touchY - mochi_height / 2);
+                    }
+                }
+            });
+
             function left() {
                 if (game_over === false && parseInt(mochi.css('left')) > line_width_l) {
                     mochi.css('left', parseInt(mochi.css('left')) - 5);
