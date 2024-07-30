@@ -292,6 +292,7 @@
             width: 80px;
             bottom: 8%;
             left: 60%;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -396,6 +397,7 @@
                 move_up = false,
                 move_down = false,
                 startX, startY, initialMochiLeft, initialMochiTop;
+
             /* ------------------------------GAME CODE STARTS HERE------------------------------------------- */
             /* Move the mochi */
             $(document).on('keydown', function (e) {
@@ -431,22 +433,24 @@
                 }
             });
 
-            // Adding touch controls
-            mochi.on('touchstart', function (e) {
+            // Adding touch and mouse drag controls
+            mochi.on('mousedown touchstart', function (e) {
                 if (game_over === false) {
                     e.preventDefault();
-                    var touch = e.touches[0];
+                    var touch = e.type === 'touchstart' ? e.touches[0] : e;
                     startX = touch.pageX;
                     startY = touch.pageY;
                     initialMochiLeft = parseInt(mochi.css('left'));
                     initialMochiTop = parseInt(mochi.css('top'));
+                    $(document).on('mousemove touchmove', onDrag);
+                    $(document).on('mouseup touchend', onStopDrag);
                 }
             });
 
-            mochi.on('touchmove', function (e) {
+            function onDrag(e) {
                 if (game_over === false) {
                     e.preventDefault();
-                    var touch = e.touches[0];
+                    var touch = e.type === 'touchmove' ? e.touches[0] : e;
                     var deltaX = touch.pageX - startX;
                     var deltaY = touch.pageY - startY;
 
@@ -462,7 +466,15 @@
                         top: newTop + 'px'
                     });
                 }
-            });
+            }
+
+            function onStopDrag(e) {
+                if (game_over === false) {
+                    e.preventDefault();
+                    $(document).off('mousemove touchmove', onDrag);
+                    $(document).off('mouseup touchend', onStopDrag);
+                }
+            }
 
             function left() {
                 if (game_over === false && parseInt(mochi.css('left')) > line_width_l) {
