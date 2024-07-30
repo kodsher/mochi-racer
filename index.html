@@ -394,7 +394,8 @@
                 move_right = false,
                 move_left = false,
                 move_up = false,
-                move_down = false;
+                move_down = false,
+                startX, startY, initialMochiLeft, initialMochiTop;
             /* ------------------------------GAME CODE STARTS HERE------------------------------------------- */
             /* Move the mochi */
             $(document).on('keydown', function (e) {
@@ -431,19 +432,35 @@
             });
 
             // Adding touch controls
-            container.on('touchstart touchmove', function (e) {
+            mochi.on('touchstart', function (e) {
                 if (game_over === false) {
+                    e.preventDefault();
                     var touch = e.touches[0];
-                    var touchX = touch.pageX - container.offset().left;
-                    var touchY = touch.pageY - container.offset().top;
+                    startX = touch.pageX;
+                    startY = touch.pageY;
+                    initialMochiLeft = parseInt(mochi.css('left'));
+                    initialMochiTop = parseInt(mochi.css('top'));
+                }
+            });
 
-                    if (touchX > 0 && touchX < container_width) {
-                        mochi.css('left', touchX - mochi_width / 2);
-                    }
+            mochi.on('touchmove', function (e) {
+                if (game_over === false) {
+                    e.preventDefault();
+                    var touch = e.touches[0];
+                    var deltaX = touch.pageX - startX;
+                    var deltaY = touch.pageY - startY;
 
-                    if (touchY > 0 && touchY < container_height) {
-                        mochi.css('top', touchY - mochi_height / 2);
-                    }
+                    var newLeft = initialMochiLeft + deltaX;
+                    var newTop = initialMochiTop + deltaY;
+
+                    // Ensure mochi stays within container bounds
+                    newLeft = Math.max(0, Math.min(newLeft, container_width - mochi_width));
+                    newTop = Math.max(0, Math.min(newTop, container_height - mochi_height));
+
+                    mochi.css({
+                        left: newLeft + 'px',
+                        top: newTop + 'px'
+                    });
                 }
             });
 
