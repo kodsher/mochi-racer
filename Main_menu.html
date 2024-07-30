@@ -16,16 +16,16 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
         }
 
         #container {
             position: relative;
-            height: 75vh; /* 75% of the viewport height */
+            height: 75vh;
             width: 90%;
             max-width: 500px;
             background-color: #292929;
             overflow: hidden;
+            margin-top: 10px;
         }
 
         /*Styling the Road Surface Markings*/
@@ -253,8 +253,8 @@
         /*Styling the score board*/
         #score_div {
             position: absolute;
-            margin-top: 20%;
-            margin-left: 10%;
+            top: 10px;
+            left: 10px;
             font-size: 35px;
             background-color: white;
             color: #454545;
@@ -274,15 +274,18 @@
 
         /* Styling for the arrow buttons */
         #controls {
-            height: 25vh; /* 25% of the viewport height */
+            height: 15vh; /* 15% of the viewport height */
             display: flex;
             justify-content: center;
             align-items: center;
+            width: 90%;
+            max-width: 500px;
+            margin-top: 10px;
         }
 
         .arrow {
-            width: 50px;
-            height: 50px;
+            width: 80px;
+            height: 80px;
             margin: 0 20px;
             background-color: gray;
             display: flex;
